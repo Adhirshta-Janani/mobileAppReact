@@ -1,0 +1,249 @@
+.login {
+    background-color: #f6f1f1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .login .div-2 {
+    background-color: var(--variable-collection-new-color4);
+    height: 926px;
+    overflow: hidden;
+    position: relative;
+    width: 428px;
+  }
+  
+  .login .text-wrapper-4 {
+    color: #000000;
+    font-family: "Inria Serif-Regular", Helvetica;
+    font-size: 50px;
+    font-weight: 400;
+    height: 17px;
+    left: 152px;
+    letter-spacing: -0.5px;
+    line-height: 17px;
+    position: absolute;
+    text-align: center;
+    text-shadow: 0px 4px 4px #00000040;
+    top: 229px;
+    white-space: nowrap;
+  }
+  
+  .login .overlap {
+    height: 592px;
+    left: 0;
+    position: absolute;
+    top: 371px;
+    width: 430px;
+  }
+  
+  .login .rectangle {
+    background-color: #d9d9d9;
+    border-radius: 50px;
+    box-shadow: 0px -5px 5px #00000040;
+    height: 592px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 428px;
+  }
+  
+  .login .group-3 {
+    height: 18px;
+    left: 102px;
+    position: absolute;
+    top: 473px;
+    width: 230px;
+  }
+  
+  .login .overlap-group {
+    height: 18px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 164px;
+  }
+  
+  .login .p {
+    color: #000000;
+    font-family: "Inria Serif-Regular", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 0;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+  }
+  
+  .login .text-wrapper-5 {
+    color: #1f2660;
+    font-family: "Inria Serif-Regular", Helvetica;
+    font-size: 15px;
+    font-weight: 400;
+    left: 172px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+  }
+  
+  .login .email-text-box-instance {
+    left: 0 !important;
+    position: absolute !important;
+    top: 78px !important;
+    width: 428px !important;
+  }
+  
+  .login .design-component-instance-node {
+    left: 10px !important;
+  }
+  
+  .login .design-component-instance-node-2 {
+    left: 18px !important;
+    width: 391px !important;
+  }
+  
+  .login .overlap-wrapper {
+    height: 100px;
+    left: 2px;
+    position: absolute;
+    top: 191px;
+    width: 428px;
+  }
+  
+  .login .overlap-2 {
+    height: 100px;
+    position: relative;
+  }
+  
+  .login .password-text-box-instance {
+    left: 0 !important;
+    position: absolute !important;
+    top: 0 !important;
+    width: 428px !important;
+  }
+  
+  .login .password-text-box-2 {
+    left: 34px !important;
+  }
+  
+  .login .show-hide {
+    height: 24px !important;
+    left: 374px !important;
+    position: absolute !important;
+    top: 38px !important;
+    width: 24px !important;
+  }
+  
+  .login .text-wrapper-6 {
+    color: #000000;
+    font-family: "Inria Serif-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    height: 17px;
+    left: 61px;
+    letter-spacing: -0.5px;
+    line-height: 17px;
+    position: absolute;
+    text-align: center;
+    top: 295px;
+    white-space: nowrap;
+  }
+  
+  .login .text-wrapper-7 {
+    color: #1f2660;
+    font-family: "Inria Serif-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    height: 17px;
+    left: 256px;
+    letter-spacing: -0.5px;
+    line-height: 17px;
+    position: absolute;
+    text-align: center;
+    top: 295px;
+    white-space: nowrap;
+  }
+  
+  .login .group-wrapper {
+    background-color: var(--variable-collection-new-color1);
+    border-radius: 30px;
+    height: 50px;
+    left: 23px;
+    position: absolute;
+    top: 397px;
+    width: 382px;
+  }
+  
+  .login .group-4 {
+    height: 30px;
+    left: 149px;
+    position: relative;
+    top: 10px;
+    width: 86px;
+  }
+  
+  .login .text-wrapper-8 {
+    color: #ffffff;
+    font-family: "Inria Serif-Regular", Helvetica;
+    font-size: 18px;
+    font-weight: 400;
+    height: 17px;
+    left: 0;
+    letter-spacing: -0.5px;
+    line-height: 17px;
+    position: absolute;
+    text-align: center;
+    top: 7px;
+    white-space: nowrap;
+  }
+  
+  .login .img-2 {
+    height: 30px;
+    left: 54px;
+    position: absolute;
+    top: 0;
+    width: 30px;
+  }
+  
+  .login .checkbox-instance {
+    left: 24px !important;
+    opacity: 0.5 !important;
+    position: absolute !important;
+    top: 290px !important;
+  }
+  
+  .login .icon {
+    height: 32px;
+    left: 355px;
+    object-fit: cover;
+    position: absolute;
+    top: 104px;
+    width: 44px;
+  }
+  
+  .login .logo {
+    height: 44px;
+    left: 226px;
+    object-fit: cover;
+    position: absolute;
+    top: 39px;
+    width: 200px;
+  }
+  
+  .login .ellipse {
+    background-color: #d9d9d9;
+    border-radius: 100px;
+    box-shadow: 0px 5px 10px #00000040;
+    height: 200px;
+    left: -64px;
+    position: absolute;
+    top: -48px;
+    width: 200px;
+  }
+  
+  
