@@ -65,7 +65,7 @@ const CheckInScreen = ({ navigation, route }) => {
       // Handle your exit logic here
       // For example, you can navigate to another screen
       navigation.navigate({
-        name: "HomeScreen",
+        name: "Landing",
         params: { responseData: responseData },
       });
       // backHandler.remove();
@@ -158,6 +158,7 @@ const CheckInScreen = ({ navigation, route }) => {
      formData.forEach(element => {
       element.dspcode = responseData.dspCode;
       element.userID = responseData.userID;
+      element.answer = element.result
      });
 
     console.log(formData);
@@ -192,7 +193,7 @@ const CheckInScreen = ({ navigation, route }) => {
           });
           setTimeout(() => { 
             // navigation.navigate("HomeScreen");
-               navigation.navigate( { name: 'HomeScreen',
+               navigation.navigate( { name: 'Landing',
             params: { responseData : responseData }});
         }, 2000); 
           // navigation.navigate( { name: 'DSPList',

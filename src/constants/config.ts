@@ -15,5 +15,7 @@ export const SEND_CHAT_MESSAGE = 'https://lokitech-dev.azurewebsites.net/api/cha
 export const GET_RECENT_CHAT = 'https://lokitech-dev.azurewebsites.net/api/chat/getRecentChat/'
 export const GET_CHAT_MESSAGE = 'https://lokitech-dev.azurewebsites.net/api/chat/GetChatMessages'
 
+export const GET_DASHBOARD_DETAILS = 'https://lokitech-dev.azurewebsites.net/api/LokiAppDashboard/'
+
 
 // https://lokitech-dev.azurewebsites.net/api/ScoreCardDetails/GetScoreCardByUserID

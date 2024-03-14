@@ -93,7 +93,7 @@ export function DrawerContentComponent({ navigation, route }) {
             )}
             label="Home"
             onPress={() =>  navigation.navigate({
-              name: "HomeScreen",
+              name: "Landing",
               params: { responseData: responseData },
             })
             }

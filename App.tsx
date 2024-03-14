@@ -9,7 +9,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Navigation from "./src/navigation/navigation";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // import DSPScoreCard from "./src/screens/dspscorecard";
-import TabsComponents from "./src/components/organisms/Tabs";
+
 // import { DrawerContent } from "@react-navigation/drawer";
 import { DrawerContentComponent } from "./src/components/organisms/Drawer";
 import AuthoriseScreen from './src/screens/authorise';
@@ -29,6 +29,9 @@ import ListingScreen from './src/screens/listingscreen';
 import DocumentAttachment from './src/components/organisms/document_picker';
 import MyComponent from './src/components/organisms/radiobutton';
 import HomeScreen from './src/screens/homescreen';
+import TabsComponents from './src/components/organisms/Tabs';
+import HomeComponent from './src/screens/landingPage';
+// import MyTabs from './src/components/organisms/Tabs';
 
 const Stack = createNativeStackNavigator();
 
@@ -54,15 +57,17 @@ export default function App() {
           {/* <DrawerContentComponent> */}
       {/* <DrawerContent state={undefined} navigation={undefined} descriptors={undefined}/> */}
     <NavigationContainer>
+
       {/* <DrawerContentComponent> */}
       <Stack.Navigator initialRouteName="Login">
       <Stack.Screen options={{headerShown: false}} name="ScrollTabs" component={ScrollTabs} />
       <Stack.Screen options={{headerShown: false}} name="Authorise" component={AuthoriseScreen} />
       <Stack.Screen options={{headerShown: false}} name="OTP" component={OTPAuthorisation} />
+      <Stack.Screen options={{headerShown: false,gestureEnabled: false}} name="Landing" component={HomeComponent} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: false}} name="Login" component={SignInScreen} />
         <Stack.Screen options={{headerShown: false}} name="Attachment" component={DocumentAttachment} />
-        <Stack.Screen options={{headerShown: false}} name="HomeScreen" component={HomeScreen} />
-        {/* <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="DSPScoreCard" component={DSPListView} /> */}
+        <Stack.Screen options={{headerShown: false,gestureEnabled: false}} name="HomeScreen" component={HomeScreen} />
+        {/* <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="Tabs" component={TabsComponents} /> */}
         <Stack.Screen options={{headerShown: false}} name="Drawer" component={DrawerContentComponent} />
         <Stack.Screen options={{headerShown: false}} name="CheckIn" component={CheckInScreen} />
         <Stack.Screen options={{headerShown: false}} name="CheckOut" component={CheckOutScreen} />
@@ -71,15 +76,19 @@ export default function App() {
         <Stack.Screen options={{headerShown: false, gestureEnabled: false}} name="FlatList" component={FlatListComponent} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="ExpandableList" component={ExpandableList} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="AnimatedList" component={AnimatedList} />
-        <Stack.Screen options={{headerShown: false, gestureEnabled: false}} name="DSPList" component={DSPListView} />
-        <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="ChatScreen" component={ChatScreen} />
+        <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="DSPList" component={DSPListView} />
+        <Stack.Screen options={{headerShown: false, gestureEnabled: false}} name="ChatScreen" component={ChatScreen} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="MessageListing" component={MessagesScreen} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="ListingScreen" component={ListingScreen} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="MyComponent" component={MyComponent} />
-  
+        <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="Tabs" component={TabsComponents} />
+        
+        
       </Stack.Navigator>
+      
       {/* </DrawerContentComponent> */}
     </NavigationContainer>
+
     {/* <View style={{position: 'absolute', left: 0, right: 0, bottom: 0}}> */}
     {/* </View> */}
     </PaperProvider>

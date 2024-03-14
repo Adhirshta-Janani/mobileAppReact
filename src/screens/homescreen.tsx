@@ -14,6 +14,9 @@ import Card from "./../components/atom/cards";
 import {LinearGradient} from 'expo-linear-gradient';
 import AppHeader from "../components/organisms/Appheader";
 import { useNavigation } from "@react-navigation/native";
+import { Tab } from "@rneui/themed";
+import TabsComponents from "../components/organisms/Tabs";
+// import {tabs}
 // import { Card } from "react-native-paper";
 
 const HomeScreen = ({ navigation, route }) => {
@@ -72,7 +75,7 @@ const HomeScreen = ({ navigation, route }) => {
   
     return (
         <>
-        <AppHeader navigation={navigation} responseData={responseData} color= "#146C94"/>
+        <AppHeader navigation={navigation} responseData={responseData} color= "white"/>
       <View style={styles.container}>
       
       <StatusBar backgroundColor="#FFFFFF" barStyle="light-content" />
@@ -132,6 +135,8 @@ const HomeScreen = ({ navigation, route }) => {
         </View>
        
       </View>
+      {/* <TabsComponents/> */}
+      {/* <TabsComponents navigation={navigation} route={route}/> */}
     
   </View>
   </>

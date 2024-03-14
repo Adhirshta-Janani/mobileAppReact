@@ -162,7 +162,7 @@ const ChatScreen = ({navigation, route}) => {
       // Handle your exit logic here
       // For example, you can navigate to another screen
       navigation.navigate({
-        name: "ListingScreen",
+        name: "Landing",
         params: { responseData: responseData },
       });
       // backHandler.remove();

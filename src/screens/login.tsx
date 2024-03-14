@@ -237,7 +237,7 @@ const SignInScreen = ({ navigation, route }) => {
             isError: false
           });
           if(response.data.userLoginType == 'Driver'){
-            navigation.navigate( { name: 'HomeScreen',
+            navigation.navigate( { name: 'Landing',
             params: { responseData : response.data }});
           }
           else{

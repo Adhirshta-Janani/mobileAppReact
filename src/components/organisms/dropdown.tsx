@@ -82,6 +82,7 @@ import { DSP_URL, DSP_URL_WEEK } from "../../constants/config";
 import Loader from "../atom/loader";
 import { ScrollView } from "react-native-virtualized-view";
 import TabsComponents from "./Tabs";
+// import TabsComponents from "./Tabs";
 
 const DATA = [
   {
@@ -209,7 +210,17 @@ const ExpandableListItem = ({ item }) => {
 
   const indicators = (value) => {
     switch (value) {
+      case "DOWN-GREEN":
+        return <Image
+        style={{ height: 30, width: 30 }}
+        source={require("./../../../assets/down_arrow.png")}
+      />
       case "UP-RED":
+        return <Image
+        style={{ height: 30, width: 30 }}
+        source={require("./../../../assets/decrease-up.png")}
+      />
+      case "DOWN-RED":
         return <Image
         style={{ height: 30, width: 30 }}
         source={require("./../../../assets/decrease.png")}
@@ -237,94 +248,84 @@ const ExpandableListItem = ({ item }) => {
       >
         {item.key == "1" ? (
           <View style={{ flex: 1 }}>
-            <Text style={styles.row}> Acceleration </Text>
-            {textColorHandler(item.content["Acceleration"])}
-            <Text style={styles.row}> Braking </Text>
-            {textColorHandler(item.content["Braking"])}
-            <Text style={styles.row}> Cornering </Text>
-            {textColorHandler(item.content["Cornering"])}
-            <Text style={styles.row}> Speeding </Text>
-            {textColorHandler(item.content["speeding"])}
-            <Text style={styles.row}> Distraction </Text>
-            {textColorHandler(item.content["Distraction"])}
-            <Text style={styles.row}> Seatbelt </Text>
-            {textColorHandler(item.content["Seatbelt"])}
-            <Text style={styles.row}> Training Assigned </Text>
-            {textColorHandler(item.content["trainingAssigned"])}
-            <Text style={styles.row}> Training Completed </Text>
-            {textColorHandler(item.content["trainingCompleted"])}
+            {item.content["Acceleration"] ? ( <><Text style={styles.row}> Acceleration </Text>
+            {textColorHandler(item.content["Acceleration"])} </> ) : null}
+            {item.content["Braking"] ? (<><Text style={styles.row}> Braking </Text>
+            {textColorHandler(item.content["Braking"])}</>) : null }
+            {item.content["Cornering"] ? (<><Text style={styles.row}> Cornering </Text>
+            {textColorHandler(item.content["Cornering"])}</>) : null }
+            {item.content["speeding"] ? (<><Text style={styles.row}> Speeding </Text>
+            {textColorHandler(item.content["speeding"])}</>) : null }
+            {item.content["Distraction"] ? (<><Text style={styles.row}> Distraction </Text>
+            {textColorHandler(item.content["Distraction"])}</>) : null }
+            {item.content["Seatbelt"] ? (<><Text style={styles.row}> Seatbelt </Text>
+            {textColorHandler(item.content["Seatbelt"])}</>) : null }
+            {item.content["trainingAssigned"] ? (<><Text style={styles.row}> Training Assigned </Text>
+            {textColorHandler(item.content["trainingAssigned"])}</>) : null }
+            {item.content["trainingCompleted"] ? (<><Text style={styles.row}> Training Completed </Text>
+            {textColorHandler(item.content["trainingCompleted"])}</>) : null }
           </View>
         ) : null}
         {item.key == "7" ? (
           <View>
-            <Text style={styles.row}> Rank </Text>
-            {textColorHandler(item.content["Rank"])}
-            <Text style={styles.row}> CDFTier </Text>
-            {textColorHandler(item.content["CDFTier"])}
-            <Text style={styles.row}> CDF Score </Text>
-            {textColorHandler(item.content["cdfScore"])}
-            <Text style={styles.row}> Delivery was Great </Text>
-            {textColorHandler(item.content["deliverywasGreat"])}
-            <Text style={styles.row}> Delivery was not so Great </Text>
-            {textColorHandler(item.content["deliverywasnotsoGreat"])}
-            <Text style={styles.row}> Respectful of Property </Text>
-            {textColorHandler(item.content["respectfulofProperty"])}
-            <Text style={styles.row}> Followed Instructions </Text>
-            {textColorHandler(item.content["followedInstructions"])}
-            <Text style={styles.row}> Friendly </Text>
-            {textColorHandler(item.content["friendly"])}
-            <Text style={styles.row}> Went Above and Beyond </Text>
-            {textColorHandler(item.content["WentAboveandBeyond"])}
-            <Text style={styles.row}> Delivered with Care </Text>
-            {textColorHandler(item.content["deliveredwithCare"])}
-            <Text style={styles.row}> Thank my Driver </Text>
-            {textColorHandler(item.content["ThankmyDriver"])}
-            <Text style={styles.row}> Mishandled Package </Text>
-            {textColorHandler(item.content["mishandledPackage"])}
-            <Text style={styles.row}> Driver Unprofessional </Text>
-            {textColorHandler(item.content["DriverUnprofessional"])}
-            <Text style={styles.row}>
-              Not Delivered to Preferred Location
-            </Text>
-            {textColorHandler(
-              item.content["NotDeliveredtoPreferredLocation"]
-            )}
-            <Text style={styles.row}> Items Damaged</Text>
-            {textColorHandler(item.content["itemDamaged"])}
-            <Text style={styles.row}> Delivered to Wrong Address </Text>
-            {textColorHandler(item.content["DeliveredtoWrongAddress"])}
-            <Text style={styles.row}> Never Received Delivery </Text>
-            {textColorHandler(item.content["NeverReceivedDelivery"])}
+             {item.content["Rank"] ? (<><Text style={styles.row}> Rank </Text>
+            {textColorHandler(item.content["Rank"])}</>) : null }
+            {item.content["CDFTier"] ? (<><Text style={styles.row}> CDFTier </Text>
+            {textColorHandler(item.content["CDFTier"])}</>) : null }
+            {item.content["cdfScore"] ? (<><Text style={styles.row}> CDF Score </Text>
+            {textColorHandler(item.content["cdfScore"])}</>) : null }
+            {item.content["deliverywasGreat"]  ? (<><Text style={styles.row}> Delivery was Great </Text>
+            {textColorHandler(item.content["deliverywasGreat"])}</>) : null }
+            {item.content["deliverywasnotsoGreat"]  ? (<><Text style={styles.row}> Delivery was not so Great </Text>
+            {textColorHandler(item.content["deliverywasnotsoGreat"])}</>) : null }
+            {item.content["respectfulofProperty"] ? (<><Text style={styles.row}> Respectful of Property </Text>
+            {textColorHandler(item.content["respectfulofProperty"])}</>) : null }
+            {item.content["followedInstructions"] ? (<><Text style={styles.row}> Followed Instructions </Text>
+            {textColorHandler(item.content["followedInstructions"])}</>) : null }
+            {item.content["friendly"]  ? (<><Text style={styles.row}> Friendly </Text>
+            {textColorHandler(item.content["friendly"])}</>) : null }
+            {item.content["WentAboveandBeyond"]  ? (<><Text style={styles.row}> Went Above and Beyond </Text>
+            {textColorHandler(item.content["WentAboveandBeyond"])}</>) : null }
+            {item.content["deliveredwithCare"] ? (<><Text style={styles.row}> Delivered with Care </Text>
+            {textColorHandler(item.content["deliveredwithCare"])}</>) : null }
+            {item.content["ThankmyDriver"] ? (<><Text style={styles.row}> Thank my Driver </Text>
+            {textColorHandler(item.content["ThankmyDriver"])}</>) : null }
+            {item.content["mishandledPackage"] ? (<><Text style={styles.row}> Mishandled Package </Text>
+            {textColorHandler(item.content["mishandledPackage"])}</>) : null }
+            {item.content["DriverUnprofessional"] ? (<><Text style={styles.row}> Driver Unprofessional </Text>
+            {textColorHandler(item.content["DriverUnprofessional"])}</>) : null }
+            {item.content["NotDeliveredtoPreferredLocation"]  ? (<><Text style={styles.row}> Not Delivered to Preferred Location </Text>
+            {textColorHandler(item.content["NotDeliveredtoPreferredLocation"])}</>) : null }
+            {item.content["itemDamaged"]  ? (<><Text style={styles.row}> Items Damaged </Text>
+            {textColorHandler(item.content["itemDamaged"])}</>) : null }
+            {item.content["DeliveredtoWrongAddress"] ? (<><Text style={styles.row}> Delivered to Wrong Address </Text>
+            {textColorHandler(item.content["DeliveredtoWrongAddress"])}</>) : null }
+            {item.content["NeverReceivedDelivery"] ? (<><Text style={styles.row}> Never Received Delivery </Text>
+            {textColorHandler(item.content["NeverReceivedDelivery"])}</>) : null }
           </View>
         ) : null}
         {item.key == "10" ? (
           <View>
-            <Text style={styles.row}> Bypass </Text>
-            {textColorHandler(item.content["Bypass"])}
-            <Text style={styles.row}> Blurry </Text>
-            {textColorHandler(item.content["blurryPhoto"])}
-            <Text style={styles.row}> Human In The Picture </Text>
-            {textColorHandler(item.content["humanInThePicture"])}
-            {/* <Text style={styles.row}> No Package Detected </Text>
-            {textColorHandler(item.content["No Package Detected"])} */}
-            <Text style={styles.row}> Package In Car </Text>
-            {textColorHandler(item.content["packageInCar"])}
-            <Text style={styles.row}> Package In Hand </Text>
-            {textColorHandler(item.content["packageInHand"])}
-            <Text style={styles.row}> Package Not Clearly Visible </Text>
-            {textColorHandler(
-              item.content[
-                "packageNotClearlyVisibleConcealment"
-              ]
-            )}
-            <Text style={styles.row}> Package Too Close </Text>
-            {textColorHandler(item.content["packageTooClose"])}
-            <Text style={styles.row}> Photo Too Dark </Text>
-            {textColorHandler(item.content["photoTooDark"])}
-            <Text style={styles.row}> Other </Text>
-            {textColorHandler(item.content["other"])}
-            <Text style={styles.row}> Total Rejects </Text>
-            {textColorHandler(item.content["TotalRejects"])}
+             {item.content["Bypass"]  ? (<><Text style={styles.row}> Bypass </Text>
+            {textColorHandler(item.content["Bypass"])}</>) : null }
+            {item.content["blurryPhoto"] ? (<><Text style={styles.row}> Blurry </Text>
+            {textColorHandler(item.content["blurryPhoto"])}</>) : null }
+            {item.content["humanInThePicture"] ? (<><Text style={styles.row}> Human In The Picture </Text>
+            {textColorHandler(item.content["humanInThePicture"])}</>) : null }
+            {item.content["packageInCar"] ? (<><Text style={styles.row}> Package In Car </Text>
+            {textColorHandler(item.content["packageInCar"])}</>) : null }
+            {item.content["packageInHand"] ? (<><Text style={styles.row}> Package In Hand </Text>
+            {textColorHandler(item.content["packageInHand"])}</>) : null }
+            {item.content["packageNotClearlyVisibleConcealment"] ? (<><Text style={styles.row}> Package Not Clearly Visible </Text>
+            {textColorHandler(item.content["packageNotClearlyVisibleConcealment"])}</>) : null }
+            {item.content["packageTooClose"] ? (<><Text style={styles.row}> Package Too Close </Text>
+            {textColorHandler(item.content["packageTooClose"])}</>) : null }
+            {item.content["photoTooDark"] ? (<><Text style={styles.row}> Photo Too Dark </Text>
+            {textColorHandler(item.content["photoTooDark"])}</>) : null }
+            {item.content["other"] ? (<><Text style={styles.row}> Other </Text>
+            {textColorHandler(item.content["other"])}</>) : null }
+            {item.content["TotalRejects"] ? (<><Text style={styles.row}> Total Rejects </Text>
+            {textColorHandler(item.content["TotalRejects"])}</>) : null }
           </View>
         ) : null}
       </View>
@@ -402,7 +403,7 @@ const DSPListView = ({ navigation, route }) => {
       // Handle your exit logic here
       // For example, you can navigate to another screen
       navigation.navigate({
-        name: "HomeScreen",
+        name: "Landing",
         params: { responseData: responseData },
       });
       // backHandler.remove();
@@ -796,7 +797,7 @@ const DSPListView = ({ navigation, route }) => {
           <ExpandableList data={DATA} />
         </View>
       </ScrollView>
-      <TabsComponents />
+      {/* <TabsComponents /> */}
       {/* <ScrollTabs childToParent={undefined} shortweekData={undefined} /> */}
     </View>
   );

@@ -100,7 +100,7 @@ const CheckOutScreen = ({ navigation, route }) => {
       // Handle your exit logic here
       // For example, you can navigate to another screen
       navigation.navigate({
-        name: "HomeScreen",
+        name: "Landing",
         params: { responseData: responseData },
       });
       // backHandler.remove();
@@ -269,8 +269,9 @@ const CheckOutScreen = ({ navigation, route }) => {
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        console.log(JSON.stringify(response.data), "$$$$$$$$$$$$$$$$$$$$4");
         if (response.data.isSuccess) {
+          console.log(response.data.isSuccess, "check this please.......//////")
           setData({
             ...data,
             loader: false,

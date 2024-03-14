@@ -66,7 +66,7 @@ const MessagesScreen = ({navigation, route}) => {
         // Handle your exit logic here
         // For example, you can navigate to another screen
         navigation.navigate({
-          name: "HomeScreen",
+          name: "Landing",
           params: { responseData: responseData },
         });
         // backHandler.remove();
@@ -137,7 +137,7 @@ const MessagesScreen = ({navigation, route}) => {
         console.log(JSON.stringify(response.data));
         if (response.data.length) {
           setrecentChat(response.data);
-          console.log(recentChat);
+          console.log(recentChat, "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^.");
         }
 
       })
