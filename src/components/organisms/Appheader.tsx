@@ -7,6 +7,10 @@ const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
 const AppHeader = ({navigation, responseData, color}) => (
     <Appbar.Header style = {{backgroundColor: color, borderColor: "#ffff"}} theme={{ colors: { primary: '#146C94' } }}>
+           {/* <TouchableHighlight onPress={() =>  navigation.navigate( { name: 'SideMenu',
+          params: { responseData : responseData }}) }>
+        <Avatar.Image size={50} source={require("../../../assets/menu.png")} /> 
+</TouchableHighlight> */}
          {/* <ImageComponent /> */}
         {/* <Image source={require("../../../assets/hamburger.png")} /> */}
         {/* <Appbar.BackAction onPress={() => {navigation.goBack()}} /> */}

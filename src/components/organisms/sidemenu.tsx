@@ -20,7 +20,7 @@ import { CHECK_OUT_URL } from "../../constants/config";
 
 const DrawerNav = createDrawerNavigator();
 
-export function DrawerContentComponent({ navigation, route }) {
+export function SideMenuComponent({ navigation, route }) {
   let { responseData } = route.params;
   let formData ;
   let selectData = [];
@@ -73,15 +73,15 @@ export function DrawerContentComponent({ navigation, route }) {
   return (
     <DrawerContentScrollView>
       <View style={styles.drawerContent}>
-        <View style={styles.userInfoSection}>
+        {/* <View style={styles.userInfoSection}>
           <Avatar.Image
             size={100}
-            source={require("../../../assets/Profile.png")}
+            source={require("../../../assets/menu.png")}
           />
           <Title style={styles.title}>
             {responseData.userFirstName} {responseData.userLastName}
           </Title>
-        </View>
+        </View> */}
         <Drawer.Section style={styles.drawerSection}>
           <DrawerItem
             icon={({ color, size }) => (
@@ -170,7 +170,7 @@ export function DrawerContentComponent({ navigation, route }) {
           <DrawerItem
             icon={({ color, size }) => (
               <MaterialCommunityIcons
-                name="account-arrow-left"
+                name="bookmark-outline"
                 color={color}
                 size={size}
               />

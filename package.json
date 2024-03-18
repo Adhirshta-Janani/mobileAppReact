@@ -51,7 +51,7 @@
     "react-native-splash-screen": "^3.3.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-table-component": "^1.2.2",
-    "react-native-vector-icons": "^10.0.1",
+    "react-native-vector-icons": "^10.0.3",
     "react-native-virtualized-view": "^1.0.0",
     "react-native-web": "^0.19.10",
     "react-navigation": "^5.0.0",

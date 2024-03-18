@@ -31,6 +31,7 @@ import MyComponent from './src/components/organisms/radiobutton';
 import HomeScreen from './src/screens/homescreen';
 import TabsComponents from './src/components/organisms/Tabs';
 import HomeComponent from './src/screens/landingPage';
+import { SideMenuComponent } from './src/components/organisms/sidemenu';
 // import MyTabs from './src/components/organisms/Tabs';
 
 const Stack = createNativeStackNavigator();
@@ -64,6 +65,7 @@ export default function App() {
       <Stack.Screen options={{headerShown: false}} name="Authorise" component={AuthoriseScreen} />
       <Stack.Screen options={{headerShown: false}} name="OTP" component={OTPAuthorisation} />
       <Stack.Screen options={{headerShown: false,gestureEnabled: false}} name="Landing" component={HomeComponent} />
+      <Stack.Screen options={{headerShown: false,gestureEnabled: false}} name="SideMenu" component={SideMenuComponent} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: false}} name="Login" component={SignInScreen} />
         <Stack.Screen options={{headerShown: false}} name="Attachment" component={DocumentAttachment} />
         <Stack.Screen options={{headerShown: false,gestureEnabled: false}} name="HomeScreen" component={HomeScreen} />
