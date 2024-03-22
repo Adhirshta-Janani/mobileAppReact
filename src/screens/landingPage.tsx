@@ -45,15 +45,6 @@ const items = [
     image: require('../../assets/46.png'),
     navigate: 'CheckOut',
     color: '',
-  },
-  {
-    id: 4,
-    place: '',
-    place2: '',
-    country: 'England',
-    image: require('../../assets/chat.jpg'),
-    navigate: 'ListingScreen',
-    color: '',
   }
 ];const SPACING = 10;
 const AVATAR_SIZE = 70;
@@ -149,12 +140,12 @@ useEffect(() => {
 
               if(response.data.checkInStatus === 'Complete') items[1].color = 'green'
               if(response.data.checkOutStatus === 'Complete') items[2].color = 'green'
-              items[1].place = "Your current CheckIn status is ";
-              items[2].place = "Your current CheckOut status is ";
+              items[1].place = "CheckIn - ";
+              items[2].place = "CheckOut - ";
               items[0].place = "Current week ";
               items[0].place1 = "  DSP scorecard data is available now";
-              items[3].place = "Check out the latest unread ";
-              items[3].place2 = " chat notifications"
+              // items[3].place = "Check out the latest unread ";
+              // items[3].place2 = " chat notifications"
               setDashboardData(sampleData)
               console.log(JSON.stringify(response.data));
               console.log(dashboardData, "Test this");
@@ -190,6 +181,12 @@ useEffect(() => {
     {/* <ScreenWrapper> */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16 }}>
         <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 24, shadowColor: 'black', shadowOpacity: 0.3 }}>Welcome Aiman</Text>
+        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() =>  navigation.navigate( { name: 'ListingScreen' ,
+              params: { responseData : responseData }})}>
+        <Icon name="comment-o" size={27} color="black" />
+        <Badge>3</Badge>
+        <Text style={{ color: 'red', marginLeft: 5 }}>{items[0].chat}</Text>
+      </TouchableOpacity>
         {/* <TouchableOpacity style={{ padding: 8, paddingHorizontal: 12, backgroundColor: 'white', borderWidth: 1, borderColor: 'text-gray-600', borderRadius: 20 }}> */}
           {/* <Text style={{ color: 'text-gray-600' }}>Logout</Text> */}
         {/* </TouchableOpacity> */}
@@ -240,10 +237,10 @@ useEffect(() => {
                   {/* <Text style={{ color: 'text-gray-600', fontSize: 12 }}>{item.country}</Text> */}
                   <View style= {{flex: 8}}>
                     {item.id == 1 ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place} <Text style={{ color: '#324AB2', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{dashboardData.lastestweekNo} </Text> {item.place1}</Text>) : null} 
-                    {item.id == 2  ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place}<Text style={{ color: item.color, fontWeight: 'bold', alignItems: "center", padding: 30 }}>{dashboardData.checkInStatus} </Text></Text>) : null}
-                    {item.id == 3 ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place}<Text style={{ color: item.color, fontWeight: 'bold', alignItems: "center", padding: 30 }}>{dashboardData.checkOutStatus} </Text></Text>) : null}
+                    {item.id == 2  ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place}<Text style={{ color: item.color, fontWeight: 'bold', alignItems: "center", padding: 30 }}>{dashboardData.checkInStatus} </Text> {dashboardData.checkInMsg}</Text>) : null}
+                    {item.id == 3 ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place}<Text style={{ color: item.color, fontWeight: 'bold', alignItems: "center", padding: 30 }}>{dashboardData.checkOutStatus} </Text>{dashboardData.checkOutMsg}</Text>) : null}
                     {/* {item.id == 1 ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place} <>{dashboardData.lastestweekNo} {item.place1}</> </Text>) : null}  */}
-                    {item.id == 4 ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place} <Text style ={{ color: 'red', fontWeight: 'bold', alignItems: "center", padding: 30 }} >{dashboardData.unReadChatCount} </Text> {item.place2} </Text>) : null} 
+                    {/* {item.id == 4 ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place} <Text style ={{ color: 'red', fontWeight: 'bold', alignItems: "center", padding: 30 }} >{dashboardData.unReadChatCount} </Text> {item.place2} </Text>) : null}  */}
                  
                    {/* <Text style={{ color: 'text-gray-600', fontWeight: 'bold', alignItems: "center", padding: 10 }}>{item.place}</Text> */}
                    </View>
@@ -259,6 +256,7 @@ useEffect(() => {
         />
       </View>
       </ScrollView>
+      
     {/* </ScreenWrapper> */}
     </>
   )

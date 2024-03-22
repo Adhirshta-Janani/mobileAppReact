@@ -32,6 +32,7 @@ import HomeScreen from './src/screens/homescreen';
 import TabsComponents from './src/components/organisms/Tabs';
 import HomeComponent from './src/screens/landingPage';
 import { SideMenuComponent } from './src/components/organisms/sidemenu';
+import CustomDrawer from './src/screens/sidemenu';
 // import MyTabs from './src/components/organisms/Tabs';
 
 const Stack = createNativeStackNavigator();
@@ -84,7 +85,7 @@ export default function App() {
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="ListingScreen" component={ListingScreen} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="MyComponent" component={MyComponent} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="Tabs" component={TabsComponents} />
-        
+        <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="NavBar" component={CustomDrawer} />
         
       </Stack.Navigator>
       

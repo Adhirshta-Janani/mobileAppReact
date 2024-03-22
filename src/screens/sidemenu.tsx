@@ -1,84 +1,38 @@
-import React, { useEffect } from "react";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import { View, StyleSheet, Alert, ImageBackground, Image } from "react-native";
-import { DrawerItem, DrawerContentScrollView } from "@react-navigation/drawer";
+import React from 'react';
 import {
-  useTheme,
-  Avatar,
-  Title,
-  Caption,
-  Paragraph,
-  Drawer,
+  View,
   Text,
-  TouchableRipple,
-  Switch,
-} from "react-native-paper";
+  ImageBackground,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem
+} from '@react-navigation/drawer';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { openBrowserAsync } from 'expo-web-browser';
 import axios from "axios";
-import { CHECK_OUT_URL } from "../../constants/config";
-// import asset from '../../assets/'
-
-const DrawerNav = createDrawerNavigator();
-
-export function DrawerContentComponent({ navigation, route }) {
-  let { responseData } = route.params;
-  let formData ;
-  let selectData = [];
-
-  
-  const handleCheckOut = async () => {
-    
-    let bodydata = JSON.stringify({
-      dspcode: responseData.dspCode,
-      userID: responseData.userID,
-    });
-
-    console.log(bodydata);
-
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: CHECK_OUT_URL,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: "Bearer" + " " + responseData.bearerToken,
-      },
-      data: bodydata,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        if (response.data.isSuccess) {
-          // setData({
-          //   ...data,
-          //   loader: false,
-          //   isError: false,
-          // });
-
-          formData = response.data.msg;
-    console.log(formData);
-    openBrowserAsync(formData)
-  }
-})
-
-        
-  };
-
-    // return () => backHandler.remove();
+import {StyleSheet, Alert } from "react-native";
 
 
+
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
+const CustomDrawer = props => {
   return (
     <View style={{flex: 1}}>
-    <DrawerContentScrollView contentContainerStyle={{backgroundColor: 'white'}}>
-    <ImageBackground
-          source={require('../../assets/images/menu-bg.jpeg')}
+      <DrawerContentScrollView
+        {...props}
+        contentContainerStyle={{backgroundColor: '#8200d6'}}>
+        <ImageBackground
+          source={require('../assets/images/menu-bg.jpeg')}
           style={{padding: 20}}>
           <Image
-            source={require('../../../assets/Profile.png')}
+            source={require('../assets/images/user-profile.jpg')}
             style={{height: 80, width: 80, borderRadius: 40, marginBottom: 10}}
           />
           <Text
@@ -88,9 +42,7 @@ export function DrawerContentComponent({ navigation, route }) {
               fontFamily: 'Roboto-Medium',
               marginBottom: 5,
             }}>
-             <Title style={styles.title}>
-            {responseData.userFirstName} {responseData.userLastName}
-          </Title>
+            John Doe
           </Text>
           <View style={{flexDirection: 'row'}}>
             <Text
@@ -101,11 +53,12 @@ export function DrawerContentComponent({ navigation, route }) {
               }}>
               280 Coins
             </Text>
-            {/* <FontAwesome5 name="coins" size={14} color="#fff" /> */}
+            <FontAwesome5 name="coins" size={14} color="#fff" />
           </View>
         </ImageBackground>
-      <View style={styles.drawerContent}>
-        <Drawer.Section style={styles.drawerSection}>
+        <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 10}}>
+          {/* <DrawerItemList {...props} /> */}
+            <Drawer.Section style={styles.drawerSection}>
           <DrawerItem
             icon={({ color, size }) => (
               <MaterialCommunityIcons
@@ -204,52 +157,83 @@ export function DrawerContentComponent({ navigation, route }) {
             }
           />
         </Drawer.Section>
+        </View>
+      </DrawerContentScrollView>
+      <View style={{padding: 20, borderTopWidth: 1, borderTopColor: '#ccc'}}>
+        <TouchableOpacity onPress={() => {}} style={{paddingVertical: 15}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Ionicons name="share-social-outline" size={22} />
+            <Text
+              style={{
+                fontSize: 15,
+                fontFamily: 'Roboto-Medium',
+                marginLeft: 5,
+              }}>
+              Tell a Friend
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {}} style={{paddingVertical: 15}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Ionicons name="exit-outline" size={22} />
+            <Text
+              style={{
+                fontSize: 15,
+                fontFamily: 'Roboto-Medium',
+                marginLeft: 5,
+              }}>
+              Sign Out
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
-    </DrawerContentScrollView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  drawerContent: {
-    flex: 1,
-    // height: 200,
-    padding: 10,
-  },
-  userInfoSection: {
-    paddingLeft: 30,
-    backgroundColor: "#146C94",
-  },
-  title: {
-    marginTop: 20,
-    fontWeight: "bold",
-    color: "white",
-  },
-  caption: {
-    fontSize: 14,
-    lineHeight: 14,
-  },
-  row: {
-    marginTop: 20,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  section: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginRight: 15,
-  },
-  paragraph: {
-    fontWeight: "bold",
-    marginRight: 3,
-  },
-  drawerSection: {
-    marginTop: 15,
-  },
-  preference: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-  },
-});
+    drawerContent: {
+      flex: 1,
+      // height: 200,
+      padding: 10,
+    },
+    userInfoSection: {
+      paddingLeft: 30,
+      backgroundColor: "#146C94",
+    },
+    title: {
+      marginTop: 20,
+      fontWeight: "bold",
+      color: "white",
+    },
+    caption: {
+      fontSize: 14,
+      lineHeight: 14,
+    },
+    row: {
+      marginTop: 20,
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    section: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginRight: 15,
+    },
+    paragraph: {
+      fontWeight: "bold",
+      marginRight: 3,
+    },
+    drawerSection: {
+      marginTop: 15,
+    },
+    preference: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+    },
+  });
+  
+
+export default CustomDrawer;
