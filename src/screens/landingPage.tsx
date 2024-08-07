@@ -20,10 +20,11 @@ import axios from 'axios';
 import { ScrollView } from 'react-native-virtualized-view';
 // import { Icon } from 'react-native-vector-icons/Icon';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Badge } from 'react-native-paper';
+import { Badge } from 'react-native-elements';
+import { useFocusEffect } from '@react-navigation/native';
 // import { colors } from '../theme';
 
-const items = [
+let items = [
   {
     id: 1,
     place: '',
@@ -62,6 +63,7 @@ export default function HomeComponent({navigation, route}) {
 
 
     const [dashboardData, setDashboardData] = useState(sampleData);
+    let [itemsData, setItemData] = useState(items);
 
     const [data, setData] = React.useState({
         loader: false,
@@ -71,6 +73,19 @@ export default function HomeComponent({navigation, route}) {
         isSuccess: false
       });
 
+
+      useFocusEffect(
+        React.useCallback(() => {
+          // alert('Screen was focused'); 
+          getData();
+          // Do something when the screen is focused
+          return () => {
+            // alert('Screen was unfocused');
+            // Do something when the screen is unfocused
+            // Useful for cleanup functions
+          };
+        }, [])
+      );
     
 useEffect(() => {
         const backAction = () => {
@@ -131,6 +146,8 @@ useEffect(() => {
               });
     
               sampleData = response.data;
+
+              responseData.checkoutShow = response.data.checkInStatus;
               // response.data.checkInStatus = 'Complete'
               if(response.data.checkInStatus === 'NA') items[1].color = 'black'
               if(response.data.checkOutStatus === 'NA') items[2].color = 'black'
@@ -140,10 +157,16 @@ useEffect(() => {
 
               if(response.data.checkInStatus === 'Complete') items[1].color = 'green'
               if(response.data.checkOutStatus === 'Complete') items[2].color = 'green'
-              items[1].place = "CheckIn - ";
-              items[2].place = "CheckOut - ";
-              items[0].place = "Current week ";
+
+              // if(response.data.lastestweekNo === '') items[0].place = 'There is no current data for the DSP scorecard.'
+              // if(response.data.checkOutStatus === 'Complete') items[2].color = 'green'
+
+              items[1].place = "CheckIn Status - ";
+              items[2].place = "CheckOut Status - ";
+              items[0].place = "Current week";
               items[0].place1 = "  DSP scorecard data is available now";
+              if(response.data.lastestweekNo === '') items[0].place = 'There is no current data for the DSP scorecard.' ; items[0].place1 = "";
+              if(response.data.checkInStatus === 'NoShow') setItemData(itemsData.filter(itemsData => itemsData.id !== 2));
               // items[3].place = "Check out the latest unread ";
               // items[3].place2 = " chat notifications"
               setDashboardData(sampleData)
@@ -177,16 +200,20 @@ useEffect(() => {
 
   return (
     <>
-        <AppHeader navigation={navigation} responseData={responseData} color="#146c94"/>
+        <AppHeader navigation={navigation} responseData={responseData} color="#146c94" backNavigation={false}/>
     {/* <ScreenWrapper> */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 16 }}>
-        <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 24, shadowColor: 'black', shadowOpacity: 0.3 }}>Welcome Aiman</Text>
-        <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() =>  navigation.navigate( { name: 'ListingScreen' ,
-              params: { responseData : responseData }})}>
-        <Icon name="comment-o" size={27} color="black" />
-        <Badge>3</Badge>
-        <Text style={{ color: 'red', marginLeft: 5 }}>{items[0].chat}</Text>
-      </TouchableOpacity>
+        <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 24, shadowColor: 'black', shadowOpacity: 0.3 }}>Welcome {responseData.userFirstName}</Text>
+        {/* <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}  */}
+       
+        {/* <Icon name="bell-o" size={27} color="black" />
+        {dashboardData.unReadChatCount !== '0' && (
+                     <Badge value={dashboardData.unReadChatCount} status="error" />
+                   )} */}
+        {/* <Badge  style={{ marginLeft: 5, position: 'absolute', top: -5, right: -5, }}>{dashboardData.unReadChatCount}</Badge> */}
+        {/* <Badge>3</Badge> */}
+        {/* <Badge style={{ }}>3</Badge> */}
+       {/* </TouchableOpacity> */}
         {/* <TouchableOpacity style={{ padding: 8, paddingHorizontal: 12, backgroundColor: 'white', borderWidth: 1, borderColor: 'text-gray-600', borderRadius: 20 }}> */}
           {/* <Text style={{ color: 'text-gray-600' }}>Logout</Text> */}
         {/* </TouchableOpacity> */}
@@ -203,7 +230,7 @@ useEffect(() => {
       <ScrollView>
       <View style={{ paddingHorizontal: 16, marginBottom: 16 }}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20 }}>Notifications</Text>
+          <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 20 }}>Activity Feed</Text>
           {/* <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Icon name="comment-o" size={27} color="black" />
         <Badge>3</Badge> */}
@@ -211,7 +238,7 @@ useEffect(() => {
       {/* </TouchableOpacity> */}
         </View>
         <FlatList
-          data={items}
+          data={itemsData}
         //   numColumns={2}
           keyExtractor={item => item.id.toString()}
           showsVerticalScrollIndicator={false}
@@ -221,8 +248,7 @@ useEffect(() => {
           style={{ marginTop: 8 }}
           renderItem={({ item }) => {
             return (
-              <TouchableOpacity style = {styles.card} onPress={() =>  navigation.navigate( { name: item.navigate,
-              params: { responseData : responseData }})}>
+    <>
                 <View style={{
             flexDirection: "row",
             justifyContent: "space-between",
@@ -237,8 +263,11 @@ useEffect(() => {
                   {/* <Text style={{ color: 'text-gray-600', fontSize: 12 }}>{item.country}</Text> */}
                   <View style= {{flex: 8}}>
                     {item.id == 1 ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place} <Text style={{ color: '#324AB2', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{dashboardData.lastestweekNo} </Text> {item.place1}</Text>) : null} 
-                    {item.id == 2  ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place}<Text style={{ color: item.color, fontWeight: 'bold', alignItems: "center", padding: 30 }}>{dashboardData.checkInStatus} </Text> {dashboardData.checkInMsg}</Text>) : null}
-                    {item.id == 3 ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place}<Text style={{ color: item.color, fontWeight: 'bold', alignItems: "center", padding: 30 }}>{dashboardData.checkOutStatus} </Text>{dashboardData.checkOutMsg}</Text>) : null}
+                    {item.id == 2  && dashboardData.checkInStatus != 'NA'? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place}<Text style={{ color: item.color, fontWeight: 'bold', alignItems: "center", padding: 30 }}>{dashboardData.checkInStatus} </Text> </Text>) : null}
+                    {item.id == 2  && dashboardData.checkInStatus == 'NA'? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place}<Text style={{ color: item.color, fontWeight: 'bold', alignItems: "center", padding: 30 }}> </Text> {dashboardData.checkInMsg}</Text>) : null}
+                    {item.id == 3 && dashboardData.checkOutStatus != 'NA' ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place}<Text style={{ color: item.color, fontWeight: 'bold', alignItems: "center", padding: 30 }}>{dashboardData.checkOutStatus} </Text></Text>) : null }
+                    {item.id == 3 && dashboardData.checkOutStatus == 'NA' ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place}<Text style={{ color: item.color, fontWeight: 'bold', alignItems: "center", padding: 30 }}> </Text>{dashboardData.checkOutMsg}</Text>) : null }
+                    
                     {/* {item.id == 1 ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place} <>{dashboardData.lastestweekNo} {item.place1}</> </Text>) : null}  */}
                     {/* {item.id == 4 ? (  <Text style={{ color: 'black', fontWeight: 'bold', alignItems: "center", padding: 30 }}>{item.place} <Text style ={{ color: 'red', fontWeight: 'bold', alignItems: "center", padding: 30 }} >{dashboardData.unReadChatCount} </Text> {item.place2} </Text>) : null}  */}
                  
@@ -249,8 +278,8 @@ useEffect(() => {
     <Text style={{ color: 'text-gray-600', fontWeight: 'bold' }}>{item.place}</Text>
   </View> */}
                 </View>     
-                
-              </TouchableOpacity>
+                </>
+          
             );
           }}
         />

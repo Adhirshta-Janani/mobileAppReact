@@ -325,10 +325,9 @@ const CheckInScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <StatusBar backgroundColor="black" />
       <AppHeader
-        navigation={navigation}
-        responseData={responseData}
-        color="#146c94"
-      />
+          navigation={navigation}
+          responseData={responseData}
+          color="#146c94" backNavigation={false}      />
       <View style={styles.header}></View>
       <ScrollView>
       {/* <KeyboardAwareScrollView > */}

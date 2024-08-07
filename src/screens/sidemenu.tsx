@@ -15,6 +15,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { openBrowserAsync } from 'expo-web-browser';
 import axios from "axios";
 import {StyleSheet, Alert } from "react-native";
+// import * as ""
 
 
 
@@ -29,7 +30,7 @@ const CustomDrawer = props => {
         {...props}
         contentContainerStyle={{backgroundColor: '#8200d6'}}>
         <ImageBackground
-          source={require('../assets/images/menu-bg.jpeg')}
+          source={require('./../../assets/menu-bg.jpg')} 
           style={{padding: 20}}>
           <Image
             source={require('../assets/images/user-profile.jpg')}
@@ -39,7 +40,7 @@ const CustomDrawer = props => {
             style={{
               color: '#fff',
               fontSize: 18,
-              fontFamily: 'Roboto-Medium',
+              fontFamily: '',
               marginBottom: 5,
             }}>
             John Doe
@@ -166,7 +167,7 @@ const CustomDrawer = props => {
             <Text
               style={{
                 fontSize: 15,
-                fontFamily: 'Roboto-Medium',
+                fontFamily: '',
                 marginLeft: 5,
               }}>
               Tell a Friend
@@ -179,7 +180,7 @@ const CustomDrawer = props => {
             <Text
               style={{
                 fontSize: 15,
-                fontFamily: 'Roboto-Medium',
+                fontFamily: '',
                 marginLeft: 5,
               }}>
               Sign Out

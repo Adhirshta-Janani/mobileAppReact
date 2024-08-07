@@ -21,12 +21,12 @@ import { AuthContext } from "../context/AuthContext";
 import { useTheme } from "react-native-paper";
 import Users from "../models/users";
 import axios from "axios";
-import { BASE_URL, Login_URL, SIGNUP_URL } from "../constants/config";
+import { BASE_URL, Login_URL, RESET_PASSWORD, SIGNUP_URL } from "../constants/config";
 import Loader from "../components/atom/loader";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 // import icon from './../assets/images/'
 
-const SignUpScreen = ({ navigation, route }) => {
+const ResetPassword = ({ navigation, route }) => {
   const [data, setData] = useState({
     username: "",
     password: "",
@@ -200,10 +200,9 @@ const SignUpScreen = ({ navigation, route }) => {
     });
 
     let bodydata = JSON.stringify({
+      email: data.username,
       DspCode: responseData.dspCode,
-      password: data.password,
-      userName: data.username,
-      UserID : responseData.id,
+      password: data.password
     });
 
     console.log(bodydata, "body Data");
@@ -212,7 +211,7 @@ const SignUpScreen = ({ navigation, route }) => {
     let config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: SIGNUP_URL,
+      url: RESET_PASSWORD,
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -232,7 +231,15 @@ const SignUpScreen = ({ navigation, route }) => {
             isSuccess: true
           });
           setTimeout(() => { 
-            navigation.navigate("Login");
+            // navigation.navigate("Landing");
+            if(response.data.userLoginType == 'Driver'){
+              navigation.navigate( { name: 'Landing',
+              params: { responseData : responseData }});
+            }
+            else{
+              navigation.navigate( { name: 'ListingScreen',
+              params: { responseData : responseData }});
+            }
         }, 2000); 
           // navigation.navigate("Login");
         } else {
@@ -268,16 +275,16 @@ const SignUpScreen = ({ navigation, route }) => {
       >
         <View style={styles.container}>
           <StatusBar backgroundColor="#FFFFFF" barStyle="light-content" />
-          {/* <Image
+          <Image
             source={require("./../assets/images/circle.png")}
             style={styles.circle}
-          /> */}
+          />
           <Image
             source={require("./../assets/images/Logo.png")}
             style={styles.logo}
           />
           <View style={styles.header}>
-            <Text style={styles.text_header}>Create Account</Text>
+            <Text style={styles.text_header}>Reset Password</Text>
           </View>
           <View
             style={[
@@ -291,16 +298,16 @@ const SignUpScreen = ({ navigation, route }) => {
             ]}
           >
               {data.isSuccess ? (
-              <Text style={styles.apiSuccess}> Username and Password Created Successfully</Text>
+              <Text style={styles.apiSuccess}> Password Updated Successfully</Text>
             ) : null}
               {data.isError ? (
               <Text style={styles.apiError}>{data.errorData}</Text>
             ) : null}
             {data.loader ? <Loader size="large" /> : null}
-            <Text style={styles.text_footer}>User ID</Text>
+            <Text style={styles.text_footer}>Email ID</Text>
             <View style={styles.action}>
               <TextInput
-                placeholder="Your User ID"
+                placeholder="Enter your registered email"
                 placeholderTextColor="#666666"
                 style={styles.textInput}
                 autoCapitalize="none"
@@ -313,7 +320,7 @@ const SignUpScreen = ({ navigation, route }) => {
                   <Feather name="check-circle" color="green" size={20} />
                 </View>
               ) : null}
-              <FontAwesome name="user-o" size={25} />
+              <FontAwesome name="user-o" size={20} />
             </View>
             {data.isValidUser ? null : (
               <View>
@@ -331,11 +338,11 @@ const SignUpScreen = ({ navigation, route }) => {
                 },
               ]}
             >
-              Password
+               New Password
             </Text>
             <View style={styles.action}>
               <TextInput
-                placeholder="Your Password"
+                placeholder="Enter a new password"
                 placeholderTextColor="#666666"
                 secureTextEntry={data.secureTextEntry ? true : false}
                 style={styles.textInput}
@@ -344,9 +351,9 @@ const SignUpScreen = ({ navigation, route }) => {
               />
               <TouchableOpacity onPress={updateSecureTextEntry}>
                 {data.secureTextEntry ? (
-                  <Feather name="eye-off" color="grey" size={25} />
+                  <Feather name="eye-off" color="grey" size={20} />
                 ) : (
-                  <Feather name="eye" color="grey" size={25} />
+                  <Feather name="eye" color="grey" size={20} />
                 )}
               </TouchableOpacity>
             </View>
@@ -371,7 +378,7 @@ const SignUpScreen = ({ navigation, route }) => {
             </Text>
             <View style={styles.action}>
               <TextInput
-                placeholder="Re-enter Password"
+                placeholder="Re-enter password"
                 placeholderTextColor="#666666"
                 secureTextEntry={data.secureTextEntry ? true : false}
                 style={styles.textInput}
@@ -380,9 +387,9 @@ const SignUpScreen = ({ navigation, route }) => {
               />
               <TouchableOpacity onPress={updateSecureTextEntry}>
                 {data.secureTextEntry ? (
-                  <Feather name="eye-off" color="grey" size={25} />
+                  <Feather name="eye-off" color="grey" size={20} />
                 ) : (
-                  <Feather name="eye" color="grey" size={25} />
+                  <Feather name="eye" color="grey" size={20} />
                 )}
               </TouchableOpacity>
             </View>
@@ -397,7 +404,7 @@ const SignUpScreen = ({ navigation, route }) => {
             <View style={styles.button}>
               <TouchableOpacity
                 style={styles.signIn}
-                  accessibilityLabel = "SignUp button"
+                  accessibilityLabel = "Submit button"
                 disabled={
                   data.isValidCode && data.isValidPassword && data.isValidUser
                     ? false
@@ -419,7 +426,7 @@ const SignUpScreen = ({ navigation, route }) => {
                       },
                     ]}
                   >
-                    Sign Up
+                    Submit
                   </Text>
                 </LinearGradient>
               </TouchableOpacity>
@@ -437,7 +444,7 @@ const SignUpScreen = ({ navigation, route }) => {
   );
 };
 
-export default SignUpScreen;
+export default ResetPassword;
 
 const styles = StyleSheet.create({
   container: {
@@ -448,8 +455,8 @@ const styles = StyleSheet.create({
     // flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    // paddingHorizontal: 20,
-    // paddingBottom: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   apiError: {
 
@@ -499,7 +506,6 @@ const styles = StyleSheet.create({
     bottom: 50,
     width: 200,
     height: 50,
-    marginTop: 120
   },
   text_header: {
     color: "black",
@@ -525,7 +531,6 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === "ios" ? 0 : -12,
     paddingLeft: 10,
     color: "#05375a",
-    height : 48
     // fontFamily: "inria serif",
   },
   inner: {

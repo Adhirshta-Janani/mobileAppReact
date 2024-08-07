@@ -33,32 +33,25 @@ import TabsComponents from './src/components/organisms/Tabs';
 import HomeComponent from './src/screens/landingPage';
 import { SideMenuComponent } from './src/components/organisms/sidemenu';
 import CustomDrawer from './src/screens/sidemenu';
+import { DrawerContent, createDrawerNavigator } from '@react-navigation/drawer';
+import { DrawerNav } from './src/components/organisms/DrawerStack';
+import ForgotPassword from './src/screens/forgotPassword';
+import ResetPassword from './src/screens/changepassword';
+import { ScreenMountProvider } from './src/components/organisms/screenMounted';
 // import MyTabs from './src/components/organisms/Tabs';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-
-  
-
-  
-  return (
-    // // <SafeAreaProvider>
-    // // <NavigationContainer>
-    // <PaperProvider>
-    //   <View>
-    //   {/* <SignInScreen /> */}
-    //   {/* <SignInScreen /> */}
-    //   <Navigation />
-    // </View>
-    // </PaperProvider>
-    // // </NavigationContainer>
-    
+ return (
     <PaperProvider>
       <StatusBar />
           {/* <DrawerContentComponent> */}
       {/* <DrawerContent state={undefined} navigation={undefined} descriptors={undefined}/> */}
     <NavigationContainer>
+    <ScreenMountProvider>
+
+
 
       {/* <DrawerContentComponent> */}
       <Stack.Navigator initialRouteName="Login">
@@ -80,14 +73,21 @@ export default function App() {
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="ExpandableList" component={ExpandableList} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="AnimatedList" component={AnimatedList} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="DSPList" component={DSPListView} />
-        <Stack.Screen options={{headerShown: false, gestureEnabled: false}} name="ChatScreen" component={ChatScreen} />
+        <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="ChatScreen" component={ChatScreen} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="MessageListing" component={MessagesScreen} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="ListingScreen" component={ListingScreen} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="MyComponent" component={MyComponent} />
         <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="Tabs" component={TabsComponents} />
-        <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="NavBar" component={CustomDrawer} />
+        <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="ForgotPassword" component={ForgotPassword} />
+        <Stack.Screen options={{headerShown: false, gestureEnabled: true}} name="ResetPassword" component={ResetPassword} />
+
+        
+
         
       </Stack.Navigator>
+      </ScreenMountProvider>
+
+      {/* <DrawerNav/> */}
       
       {/* </DrawerContentComponent> */}
     </NavigationContainer>

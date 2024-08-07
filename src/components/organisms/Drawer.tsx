@@ -14,198 +14,183 @@ import {
   Switch,
 } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { openBrowserAsync } from 'expo-web-browser';
+import { openBrowserAsync } from "expo-web-browser";
 import axios from "axios";
-import { CHECK_OUT_URL } from "../../constants/config";
-// import asset from '../../assets/'
+import { ACCOUNT_DEACTIVATE, CHECK_OUT_URL } from "../../constants/config";
+// import { BackHandler, Alert } from 'react-native-back-handler';
+// import asset from '../../../assets/'
 
 const DrawerNav = createDrawerNavigator();
 
 export function DrawerContentComponent({ navigation, route }) {
   let { responseData } = route.params;
-  let formData ;
+  console.log(responseData, "Janani");
+  let formData;
   let selectData = [];
 
-  
-  const handleCheckOut = async () => {
+  const deleteHandle = async () => {
+
+    Alert.alert(
+      "Delete",
+      "Are you sure you want to delete your account?",
+      [
+        { text: "Yes", onPress: () => apiCall() }, 
+        { text: "No" },
+      ],
+      { cancelable: false }
+    );
+    // let bodydata = {
+    //     "DspCode": responseData.dspCode ,
+    //     "userID": responseData.userID
+    // }
+
+  };
+
+
+  const apiCall = async () => {
     
-    let bodydata = JSON.stringify({
-      dspcode: responseData.dspCode,
-      userID: responseData.userID,
-    });
-
-    console.log(bodydata);
-
     let config = {
-      method: "post",
+      method: "delete",
       maxBodyLength: Infinity,
-      url: CHECK_OUT_URL,
+      url:
+        ACCOUNT_DEACTIVATE +
+        "?DspCode=" +
+        responseData.dspCode +
+        "&userID=" +
+        responseData.userID,
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
         Authorization: "Bearer" + " " + responseData.bearerToken,
       },
-      data: bodydata,
+      // data: bodydata,
     };
 
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        if (response.data.isSuccess) {
-          // setData({
-          //   ...data,
-          //   loader: false,
-          //   isError: false,
-          // });
+    console.log(config);
 
-          formData = response.data.msg;
-    console.log(formData);
-    openBrowserAsync(formData)
-  }
-})
-
+    axios.request(config).then((response) => {
+      console.log(JSON.stringify(response.data));
+      if (response.data.isSuccess) {
+       
+        Alert.alert(
+          "",
+          "Account Deleted Successfully",
         
-  };
+        );
 
-    // return () => backHandler.remove();
+        navigation.navigate("Login")
 
+        // navigation.navigate('Login')
+        // setData({
+        //   ...data,
+        //   loader: false,
+        //   isError: false,
+        // });
+
+        // formData = response.data.msg;
+        console.log(formData);
+      } else {
+      }
+    });
+  }
+  // return () => backHandler.remove();
 
   return (
-    <View style={{flex: 1}}>
-    <DrawerContentScrollView contentContainerStyle={{backgroundColor: 'white'}}>
-    <ImageBackground
-          source={require('../../assets/images/menu-bg.jpeg')}
-          style={{padding: 20}}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
+      <DrawerContentScrollView
+        contentContainerStyle={{ backgroundColor: "white" }}
+      >
+        <ImageBackground
+          source={require("../../../assets/menu-bg.jpg")}
+          style={{ padding: 20 }}
+        >
           <Image
-            source={require('../../../assets/Profile.png')}
-            style={{height: 80, width: 80, borderRadius: 40, marginBottom: 10}}
+            source={require("../../../assets/Profile.png")}
+            style={{
+              height: 80,
+              width: 80,
+              borderRadius: 40,
+              marginBottom: 10,
+            }}
           />
           <Text
             style={{
-              color: '#fff',
+              color: "#fff",
               fontSize: 18,
-              fontFamily: 'Roboto-Medium',
+              fontFamily: "",
               marginBottom: 5,
-            }}>
-             <Title style={styles.title}>
-            {responseData.userFirstName} {responseData.userLastName}
-          </Title>
+            }}
+          >
+            <Title style={styles.title}>
+              {responseData.userFirstName} {responseData.userLastName}
+            </Title>
           </Text>
-          <View style={{flexDirection: 'row'}}>
-            <Text
+          <View style={{ flexDirection: "row" }}>
+            {/* <Text
               style={{
                 color: '#fff',
                 fontFamily: 'Roboto-Regular',
                 marginRight: 5,
               }}>
-              280 Coins
-            </Text>
+
+            </Text> */}
             {/* <FontAwesome5 name="coins" size={14} color="#fff" /> */}
           </View>
         </ImageBackground>
-      <View style={styles.drawerContent}>
-        <Drawer.Section style={styles.drawerSection}>
-          <DrawerItem
-            icon={({ color, size }) => (
-              <MaterialCommunityIcons
-                name="account-outline"
-                color={color}
-                size={size}
-              />
-            )}
-            label="Home"
-            onPress={() =>  navigation.navigate({
-              name: "Landing",
-              params: { responseData: responseData },
-            })
-            }
-          />
-          {responseData.userLoginType == "Driver" ? (
+        <View style={styles.drawerContent}>
+          <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
               icon={({ color, size }) => (
-                <MaterialCommunityIcons name="seal" color={color} size={size} />
-                // <Image />
+                <MaterialCommunityIcons name="home" color={color} size={size} />
               )}
-              // icon= "../../../assets/DSPScoreCard.png"
-              label={responseData.userFirstName + " ScoreCard"}
-              onPress={() => {
+              label="Home"
+              onPress={() =>
                 navigation.navigate({
-                  name: "DSPList",
+                  name: "Tabs",
                   params: { responseData: responseData },
-                });
-              }}
+                })
+              }
             />
-          ) : null}
-          {responseData.userLoginType == "Driver" ? (
             <DrawerItem
               icon={({ color, size }) => (
                 <MaterialCommunityIcons
-                  name="calendar-check"
+                  name="account-arrow-left"
                   color={color}
                   size={size}
                 />
               )}
-              label="Check In"
-              // onPress={() => {navigation.navigate('CheckIn')}}
+              label="Logout"
               onPress={() => {
-                navigation.navigate({
-                  name: "CheckIn",
-                  params: { responseData: responseData },
-                });
+                Alert.alert(
+                  "Logout",
+                  "Are you sure you want to log out?",
+                  [
+                    {
+                      text: "Yes",
+                      onPress: () => navigation.navigate("Login"),
+                    },
+                    { text: "No" },
+                  ],
+                  { cancelable: false }
+                );
               }}
             />
-          ) : null}
-          {responseData.userLoginType == "Driver" ? (
             <DrawerItem
               icon={({ color, size }) => (
                 <MaterialCommunityIcons
-                  name="calendar-arrow-left"
+                  name="account-cancel"
                   color={color}
                   size={size}
                 />
               )}
-              label="Check Out"
-              // onPress={() => {navigation.navigate('CheckOut')}}
-              // handleCheckOut
+              label="Account Deletion"
               onPress={() => {
-                navigation.navigate({
-                  name: "CheckOut",
-                  params: { responseData: responseData },
-                });
+                deleteHandle();
               }}
             />
-          ) : null}
-
-          <DrawerItem
-            icon={({ color, size }) => (
-              <MaterialCommunityIcons name="chat" color={color} size={size} />
-            )}
-            label="Chat"
-            // onPress={() => {navigation.navigate('CheckOut')}}
-            onPress={() => {
-              navigation.navigate({
-                name: "ListingScreen",
-                params: { responseData: responseData },
-              });
-            }}
-          />
-          <DrawerItem
-            icon={({ color, size }) => (
-              <MaterialCommunityIcons
-                name="account-arrow-left"
-                color={color}
-                size={size}
-              />
-            )}
-            label="Logout"
-            onPress={() => {
-              navigation.navigate("Login");}
-            }
-          />
-        </Drawer.Section>
-      </View>
-    </DrawerContentScrollView>
+          </Drawer.Section>
+        </View>
+      </DrawerContentScrollView>
     </View>
   );
 }
@@ -214,6 +199,8 @@ const styles = StyleSheet.create({
   drawerContent: {
     flex: 1,
     // height: 200,
+    // width: 50,
+
     padding: 10,
   },
   userInfoSection: {

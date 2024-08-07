@@ -71,56 +71,16 @@ const SignInScreen = ({ navigation, route }) => {
   };
 
   const handlePasswordChange = (val) => {
-    var lowerCase = /[a-z]/g;
-    var upperCase = /[A-Z]/g;
-    var numbers = /[0-9]/g;
-    if (!val.match(lowerCase)) {
-      setData({
-        ...data,
-        password: val,
-        isValidPassword: false,
-        isError: false,
-        errormsg: "Password should contains lowercase letters!"
-      });
-    } else if (!val.match(upperCase)) {
-      setData({
-        ...data,
-        password: val,
-        isValidPassword: false,
-        isError: false,
-        errormsg: "Password should contain uppercase letters!"
-      });
-    } else if (!val.match(numbers)) {
-      setData({
-        ...data,
-        password: val,
-        isValidPassword: false,
-        isError: false,
-        errormsg: "Password should contains numbers also!"
-      });
-      //  setErrorMessage("Password should contains numbers also!");
-    } else if (val.length < 10) {
-      setData({
-        ...data,
-        password: val,
-        isValidPassword: false,
-        isError: false,
-        errormsg: "Password length should be more than 10."
-      });
-      //  setErrorMessage("Password length should be more than 10.");
-    } 
-    else {
       setData({
         ...data,
         password: val,
         isValidPassword: true,
         isError: false
       });
-    } 
   };
 
   const handleDSPCodeChange = (val) => {
-    if (val.trim().length >= 4) {
+    if (val.trim().length) {
       setData({
         ...data,
         code: val,
@@ -236,8 +196,12 @@ const SignInScreen = ({ navigation, route }) => {
             loader: false,
             isError: false
           });
-          if(response.data.userLoginType == 'Driver'){
-            navigation.navigate( { name: 'Landing',
+          if(response.data.userLoginType == 'Driver' && response.data.isForgetPassword != "True"){
+            navigation.navigate( { name: 'Tabs',
+            params: { responseData : response.data, loadingData: true }});
+          }
+          else if(response.data.isForgetPassword == 'True'){
+            navigation.navigate( { name: 'ResetPassword',
             params: { responseData : response.data }});
           }
           else{
@@ -293,16 +257,16 @@ const SignInScreen = ({ navigation, route }) => {
       >
         <View style={styles.container}>
           <StatusBar backgroundColor="#FFFFFF" barStyle="light-content" />
-          <Image
-            source={require("./../assets/images/circle.png")}
+          {/* <Image
+            source={require("")}
             style={styles.circle}
-          />
+          /> */}
           <Image
             source={require("./../assets/images/Logo.png")}
             style={styles.logo}
           />
           <View style={styles.header}>
-            <Text style={styles.text_header}>Login</Text>
+            <Text style={styles.text_header}>Sign in</Text>
           </View>
           <View
             style={[
@@ -333,10 +297,10 @@ const SignInScreen = ({ navigation, route }) => {
 
               {data.check_textInputChange ? (
                 <View>
-                  <Feather name="check-circle" color="green" size={20} />
+                  <Feather name="check-circle" color="green" size={25} />
                 </View>
               ) : null}
-              <FontAwesome name="user-o" size={20} />
+              <FontAwesome name="user-o" size={25} />
             </View>
             {data.isValidUser ? null : (
               <View>
@@ -368,9 +332,9 @@ const SignInScreen = ({ navigation, route }) => {
               />
               <TouchableOpacity onPress={updateSecureTextEntry}>
                 {data.secureTextEntry ? (
-                  <Feather name="eye-off" color="grey" size={20} />
+                  <Feather name="eye-off" color="grey" size={30} />
                 ) : (
-                  <Feather name="eye" color="grey" size={20} />
+                  <Feather name="eye" color="grey" size={30} />
                 )}
               </TouchableOpacity>
             </View>
@@ -409,7 +373,7 @@ const SignInScreen = ({ navigation, route }) => {
                   <Feather name="check-circle" color="green" size={20} />
                 </View>
               ) : null}
-              <FontAwesome name="vcard-o" size={20} />
+              <FontAwesome name="vcard-o" size={25} />
             </View>
             {data.isValidCode ? null : (
               <View>
@@ -420,7 +384,9 @@ const SignInScreen = ({ navigation, route }) => {
             )}
             {/* </ScrollView> */}
             {/* </KeyboardAvoidingView> */}
-            <TouchableOpacity>
+            <TouchableOpacity  onPress={() => {
+                   navigation.navigate( { name: 'ForgotPassword'});
+                }}>
               <Text
                 style={{
                   color: "#146C94",
@@ -436,8 +402,9 @@ const SignInScreen = ({ navigation, route }) => {
             <View style={styles.button}>
               <TouchableOpacity
                 style={styles.signIn}
+                accessibilityLabel = "Login button"
                 disabled={
-                  data.isValidCode && data.isValidPassword && data.isValidUser
+                  data.isValidCode  && data.isValidUser
                     ? false
                     : true
                 }
@@ -466,7 +433,7 @@ const SignInScreen = ({ navigation, route }) => {
         {/* <Text> Don't have an account?
         </Text> */}
         <Text> </Text>
-        <TouchableOpacity>
+        <TouchableOpacity accessibilityLabel = "Register for new user">
           <Text
             style={{
               color: "#146C94",
@@ -500,8 +467,8 @@ const styles = StyleSheet.create({
     // flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    paddingHorizontal: 20,
-    paddingBottom: 20,
+    // paddingHorizontal: 20,
+    // paddingBottom: 20,
   },
   apiError: {
 
@@ -524,21 +491,31 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
   },
   circle: {
-    resizeMode: "contain",
+    // resizeMode: "contain",
     marginLeft: -30,
-    bottom: 30,
-    width: 150,
-    height: 150,
+    // bottom: 30,
+    // width: 150,
+    height: 120,
     shadowColor: "#202020",
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 2,
   },
   logo: {
     resizeMode: "contain",
-    marginLeft: 190,
-    bottom: 50,
+    // marginLeft: 190,
+    // bottom: 50,
     width: 200,
-    height: 50,
+    // height: 50,
+        // resizeMode: "contain",
+        marginLeft: 200,
+        marginTop: 60,
+        // bottom: 30,
+        // width: 150,
+        height: 80,
+        shadowColor: "#202020",
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 2,
+        backgroundColor: "#fff"
   },
   text_header: {
     color: "black",
@@ -564,6 +541,7 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === "ios" ? 0 : -12,
     paddingLeft: 10,
     color: "#05375a",
+    height: 48
     // fontFamily: "inria serif",
   },
   inner: {
@@ -578,7 +556,9 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     alignItems: "center",
-    marginTop: 60,
+    marginTop: 30
+    
+    ,
   },
   signIn: {
     width: "100%",

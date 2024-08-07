@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "mobileApp",
-    "slug": "mobileApp",
+    "name": "lokiteck",
+    "slug": "lokiteck",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/appicon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -16,24 +16,39 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.saj01.mobileApp"
+      "bundleIdentifier": "com.saj01.mobileApp",
+      "buildNumber": "5"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "b24f1ce0-6490-4df4-a926-e25362d53ea8"
+        "projectId": "7f74a37a-ed02-44c7-97d1-05ba9ae62de3"
       }
     },
     "runtimeVersion": {
       "policy": "appVersion"
     },
-    "updates": {
-      "url": "https://u.expo.dev/9bd8a662-84a1-42cd-93db-deebe483d4f6"
-    },
+    "updates": {},
     "android": {
-      "package": "com.saj01.mobileApp"
-    }
+      "package": "com.mobileapp.lokiteck",
+      "versionCode": 5,
+      "adaptiveIcon":{
+        "foregroundImage":"./assets/appicon.png",
+        "backgroundColor" :"#ffffff"
+      }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": true
+          },
+          "ios": {}
+        }
+      ]
+    ]
   }
 }

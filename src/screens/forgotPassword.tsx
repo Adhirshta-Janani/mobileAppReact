@@ -15,14 +15,14 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import { useTheme } from "react-native-paper";
 import axios from "axios";
-import { BASE_URL, Login_URL, VERIFYUSER_URL } from "../constants/config";
+import { BASE_URL, FORGOT_PASSWORD, Login_URL, VERIFYUSER_URL } from "../constants/config";
 //import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
  
 import DatePicker from 'react-native-date-picker'
 import Loader from "../components/atom/loader";
 //import Users from "../models/users";
 
-const AuthoriseScreen = ({navigation}) => {
+const ForgotPassword = ({navigation}) => {
   const [data, setData] = React.useState({
     code: "",
     check_textInputChange: false,
@@ -30,28 +30,15 @@ const AuthoriseScreen = ({navigation}) => {
     isValidUser: true,
     isValidPassword: true,
     loader: false,
-    isError: false
+    isError: false,
+    dspcode: '',
+    email: '',
+    error : '',
+    successMessage: '',
+    isSuccess: false
   });
 
   const { colors } = useTheme();
-
-  const textInputChange = (val: string) => {
-    if (val.trim().length >= 10) {
-      setData({
-        ...data,
-        code: val,
-        check_textInputChange: true,
-        isValidUser: true,
-      });
-    } else {
-      setData({
-        ...data,
-        code: val,
-        check_textInputChange: false,
-        isValidUser: false,
-      });
-    }
-  };
 
   // const handlePasswordChange = (val: string) => {
   //   if (val.trim().length >= 8) {
@@ -69,7 +56,20 @@ const AuthoriseScreen = ({navigation}) => {
   //   }
   // };
 
-  const authoriseHandle = () => {
+  const forgotPasswordHandle = () => {
+
+    if (
+        data.email.length == 0 ||
+        data.dspcode.length == 0 
+        // data.confirmPassword.length == 0
+      ) {
+        Alert.alert(
+          "Wrong Input!",
+          "User ID or password field cannot be empty.",
+          [{ text: "Okay" }]
+        );
+        return;
+      } else {
 
     setData({
         ...data,
@@ -78,7 +78,8 @@ const AuthoriseScreen = ({navigation}) => {
       });
 
      let bodydata = JSON.stringify({
-        UserToken: data.code
+            email: data.email,
+            DspCode: data.dspcode    
       });
   
       console.log(bodydata);
@@ -86,7 +87,7 @@ const AuthoriseScreen = ({navigation}) => {
       let config = {
         method: "post",
         // maxBodyLength: Infinity,
-        url: VERIFYUSER_URL,
+        url: FORGOT_PASSWORD,
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -103,16 +104,20 @@ const AuthoriseScreen = ({navigation}) => {
             setData({
               ...data,
               loader: false,
-              isError: false
+              isError: false,
+              successMessage: response.data.msg,
+              isSuccess : true
             });
-            response.data.authoriseCode = data.code ;
-            navigation.navigate( { name: 'OTP',
-              params: { responseData : response.data }});
+            // response.data.authoriseCode = data.code ;
+            setTimeout(() => { 
+                navigation.navigate("Login");
+            }, 3000); 
           } else {
             setData({
               ...data,
               loader: false,
               isError: true,
+              error : response.data.msg,
             });
             // Alert.alert("Wrong Input!", "Incorrect Credentials", [
             //   { text: "Okay" },
@@ -129,6 +134,7 @@ const AuthoriseScreen = ({navigation}) => {
         });
   
   }
+}
 
 //   const login = () => {
 //     setData({
@@ -196,15 +202,67 @@ const AuthoriseScreen = ({navigation}) => {
   };
 
   const handleValidUser = (val: string) => {
-    if (val.trim().length >= 16) {
+    // if (val.trim().length >= 16) {
       setData({
         ...data,
         isValidUser: true,
+        dspcode: val,
+      });
+    // } 
+  };
+
+
+  const handleValidEmail = (val: string) => {
+    // if (val.trim().length >= 16) {
+      setData({
+        ...data,
+        isValidUser: true,
+        email: val,
+      });
+    // } 
+  };
+
+  
+
+
+  const textInputChange = (val) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!emailRegex.test(val)) {
+      setData({
+        ...data,
+        check_textInputChange: false,
+        isValidUser: false,
+        isError: false,
+        email: val,
       });
     } else {
       setData({
         ...data,
+        check_textInputChange: true,
+        // check_textInputChange: false,
+        isValidUser: true,
+        isError: false
+      });
+    }
+  };
+
+
+  const textDSPChange = (val) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    if (!emailRegex.test(val)) {
+      setData({
+        ...data,
+        check_textInputChange: false,
         isValidUser: false,
+        isError: false
+      });
+    } else {
+      setData({
+        ...data,
+        check_textInputChange: true,
+        // check_textInputChange: false,
+        isValidUser: true,
+        isError: false
       });
     }
   };
@@ -236,7 +294,7 @@ const AuthoriseScreen = ({navigation}) => {
         {
           paddingTop:-20,
         paddingBottom: 30,
-        }]}>Authorization Code </Text>
+        }]}>Reset Password</Text>
       </View>
         
       </View>
@@ -255,8 +313,11 @@ const AuthoriseScreen = ({navigation}) => {
           },
         ]}
       >
+              {data.isSuccess ? (
+              <Text style={styles.apiSuccess}> {data.successMessage}</Text>
+            ) : null}
            {data.isError ? (
-              <Text style={styles.apiError}> Incorrect Credentials</Text>
+              <Text style={styles.apiError}>{data.error}</Text>
             ) : null}
         {data.loader ? <Loader size={undefined} /> : null}
         <Text style={styles.text_footer}></Text>
@@ -265,12 +326,12 @@ const AuthoriseScreen = ({navigation}) => {
           alignItems:'center',
         }]}>
           <TextInput
-            placeholder="Enter the code"
+            placeholder="Enter the registered Email ID"
             placeholderTextColor="#666666"
             style={styles.textInput}
             autoCapitalize="none"
             onChangeText={(val) => textInputChange(val)}
-            onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+            onEndEditing={(e) => handleValidEmail(e.nativeEvent.text)}
           />
           
           {data.check_textInputChange ? (
@@ -278,6 +339,30 @@ const AuthoriseScreen = ({navigation}) => {
               <Feather name="check-circle" color="green" size={20} />
             </View>
           ) : null}
+
+{data.isValidUser ? null : (
+              <View>
+                <Text style={styles.errorMsg}>
+                  Please enter a valid email address.
+                </Text>
+              </View>
+            )}
+          
+        </View>
+
+        <View style={[styles.action,
+        {
+          alignItems:'center',
+        }]}>
+          <TextInput
+            placeholder="DSP Code"
+            placeholderTextColor="#666666"
+            style={styles.textInput}
+            autoCapitalize="none"
+            // onChangeText={(val) => textInputChange(val)}
+            onEndEditing={(e) => handleValidUser(e.nativeEvent.text)}
+          />
+          
         </View>
         {/* {data.isValidUser ? null : (
           <View>
@@ -289,9 +374,9 @@ const AuthoriseScreen = ({navigation}) => {
         <View style={styles.button}>
           <TouchableOpacity
             style={styles.signIn}
-              accessibilityLabel = "Next button"
+              accessibilityLabel = "Forgot Password button"
             onPress={() => {
-              authoriseHandle();
+                forgotPasswordHandle();
             }}
           >
             <LinearGradient
@@ -306,16 +391,16 @@ const AuthoriseScreen = ({navigation}) => {
                   },
                 ]}
               >
-                Next
+                Submit
               </Text>
             </LinearGradient>
           </TouchableOpacity>
         
-        <TouchableOpacity   accessibilityLabel = "Login button">
+        <TouchableOpacity  accessibilityLabel = "Login button">
           <Text
             style={{
               color: "#146C94",
-              marginTop: 90,
+              marginTop: 60,
               textAlign: "center",
               justifyContent: "flex-end",
             //   fontFamily: "inria serif",
@@ -339,7 +424,7 @@ const AuthoriseScreen = ({navigation}) => {
   );
 };
 
-export default AuthoriseScreen;
+export default ForgotPassword;
 
 const styles = StyleSheet.create({
   container: {
@@ -357,6 +442,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     //paddingBottom: 20,   
     
+  },
+
+  apiSuccess: {
+
+    color : "#228B22",
+    textAlign: 'center',
+    // color: '#000000',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlignVertical: 'center',
+    alignContent: 'center',
+
   },
 
   apiError: {
@@ -393,31 +491,14 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 2,
   },
-  // logo: {
-  //   resizeMode: "contain",
-  //   flex:1,    
-  //   marginLeft: 180,
-  //   marginTop:-50,
-  //   // marginBottom: 300,
-  //   // bottom: 50,
-  //   width: 200,
-  //   height: 44,
-  // },
   logo: {
     resizeMode: "contain",
-    // marginLeft: 190,
-    // bottom: 100,
+    flex:1,    
+    marginLeft: 180,
+    marginTop:-100,
+    bottom: 50,
     width: 200,
-    // height: 50,
-        // resizeMode: "contain",
-        marginLeft: 200,
-        marginTop: 60,
-        // bottom: 30,
-        // width: 150,
-        height: 120,
-        shadowColor: "#202020",
-        shadowOffset: { width: 0, height: 0 },
-        shadowRadius: 2,
+    height: 44,
   },
   text_header: {
     color: "black",

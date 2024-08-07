@@ -75,7 +75,7 @@ const HomeScreen = ({ navigation, route }) => {
   
     return (
         <>
-        <AppHeader navigation={navigation} responseData={responseData} color= "white"/>
+        <AppHeader navigation={navigation} responseData={responseData} color="white" backNavigation={false}/>
       <View style={styles.container}>
       
       <StatusBar backgroundColor="#FFFFFF" barStyle="light-content" />

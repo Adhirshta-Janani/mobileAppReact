@@ -539,8 +539,7 @@ const CheckOutScreen = ({ navigation, route }) => {
       <AppHeader
         navigation={navigation}
         responseData={responseData}
-        color="#146C94"
-      />
+        color="#146C94" backNavigation={false}      />
       <StatusBar backgroundColor="#FFFFFF" barStyle="light-content" />
       <View style={styles.header}></View>
       <ScrollView>

@@ -5,7 +5,7 @@ import ImageComponent from '../atom/image';
 
 const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
-const AppHeader = ({navigation, responseData, color}) => (
+const AppHeader = ({navigation, responseData, color, backNavigation}) => (
     <Appbar.Header style = {{backgroundColor: color, borderColor: "#ffff"}} theme={{ colors: { primary: '#146C94' } }}>
            {/* <TouchableHighlight onPress={() =>  navigation.navigate( { name: 'SideMenu',
           params: { responseData : responseData }}) }>
@@ -13,6 +13,7 @@ const AppHeader = ({navigation, responseData, color}) => (
 </TouchableHighlight> */}
          {/* <ImageComponent /> */}
         {/* <Image source={require("../../../assets/hamburger.png")} /> */}
+        {backNavigation ? ( <Appbar.BackAction onPress={() => {navigation.goBack()}} />) : null}
         {/* <Appbar.BackAction onPress={() => {navigation.goBack()}} /> */}
         
         {/* <Appbar.Action  icon="arrow-left" onPress={() => {navigation.goBack()}} /> */}

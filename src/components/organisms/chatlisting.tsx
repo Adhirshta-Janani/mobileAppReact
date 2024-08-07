@@ -15,6 +15,9 @@ import {
 import AppHeader from './Appheader';
 import { GET_RECENT_CHAT, RECENT_CHAT_URL } from '../../constants/config';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
+import { Badge } from 'react-native-elements';
+// import { Badge } from 'react-native-paper';
 
 const Messages = [
   {
@@ -61,25 +64,39 @@ const Messages = [
 
 const MessagesScreen = ({navigation, route}) => {
     let { responseData } = route.params;
-    useEffect(() => {
-      const backAction = () => {
-        // Handle your exit logic here
-        // For example, you can navigate to another screen
-        navigation.navigate({
-          name: "Landing",
-          params: { responseData: responseData },
-        });
-        // backHandler.remove();
-        return true; // Prevent default behavior (exit app)
-      };
+
+    useFocusEffect(
+      React.useCallback(() => {
+        // alert('Screen was focused'); 
+        fetchChatData();
+        // Do something when the screen is focused
+        return () => {
+          // alert('Screen was unfocused');
+          // Do something when the screen is unfocused
+          // Useful for cleanup functions
+        };
+      }, [])
+    );
+
+    // useEffect(() => {
+    //   const backAction = () => {
+    //     // Handle your exit logic here
+    //     // For example, you can navigate to another screen
+    //     navigation.navigate({
+    //       name: "Landing",
+    //       params: { responseData: responseData },
+    //     });
+    //     // backHandler.remove();
+    //     return true; // Prevent default behavior (exit app)
+    //   };
     
-      const backHandler = BackHandler.addEventListener(
-        'hardwareBackPress',
-        backAction
-      );
+    //   const backHandler = BackHandler.addEventListener(
+    //     'hardwareBackPress',
+    //     backAction
+    //   );
     
-      return () => backHandler.remove();
-    }, []);
+    //   return () => backHandler.remove();
+    // }, []);
 
     console.log(responseData,"check this")
 
@@ -114,10 +131,12 @@ const MessagesScreen = ({navigation, route}) => {
   //     }
   // ]
 
+  
+
     const [recentChat, setrecentChat] = useState([]);
 
     const fetchChatData = () => {
-      console.log(responseData,"..........")
+      console.log(responseData,"Janaaaaaaaa")
      
       
       let config = {
@@ -184,61 +203,17 @@ const MessagesScreen = ({navigation, route}) => {
 
     let [chats, setChats] = useState(Messages)
 
-    // function getRecentChat(){
-    //     let bodydata = JSON.stringify({
+    // const ReadCounter = () => (
+    //   <View style={styles.readCounter}>
+    //     <Text style={styles.readCounterText}>Check</Text>
+    //   </View>
+    // );
+
     
-    //         senderID:responseData.userID, 
-    //         dspcode:responseData.dspCode
-    //     }); 
 
-    //     console.log(bodydata);
-    
-    //     let config = {
-    //       method: "post",
-    //       maxBodyLength: Infinity,
-    //       url: RECENT_CHAT_URL,
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Accept: "application/json",
-    //       },
-    //       data: bodydata,
-    //     };
-
-    //     axios
-    //     .request(config)
-    //     .then((response) => {
-    //       console.log(JSON.stringify(response.data));
-    //       if (response.data.isSuccess == true) {
-    //         setOtp(otp = response.data.otp);
-    //       //  responseData = response.data;
-    //        response.data.authoriseCode = responseData.authoriseCode ;
-    //           responseData = response.data;
-    //           console.log(JSON.stringify(responseData));
-    //       } else {
-    //         setData({
-    //           ...data,
-    //           loader: false,
-    //           isError: true,
-    //         });
-    //         // Alert.alert("Wrong Input!", "Incorrect Credentials", [
-    //         //   { text: "Okay" },
-    //         // ]);
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //       setData({
-    //         ...data,
-    //         loader: false,
-    //       });
-    //       Alert.alert("Error", error, [{ text: "Okay" }]);     ///check this logic once again
-    //     });
-    // }
-
-    // useEffect(getRecentChat, []);
     return (
         <>
-        <AppHeader navigation={navigation} responseData={responseData} color="#146C94"/>
+        <AppHeader navigation={navigation} responseData={responseData} color="#146C94" backNavigation={false}/>
       <Container>
         <FlatList 
           data={recentChat}
@@ -249,17 +224,26 @@ const MessagesScreen = ({navigation, route}) => {
               <UserInfo>
                 <UserImgWrapper>
     {/* userImg: require('../../../assets/User/user-1.jpg'), */}
-                  <UserImg source= {require('../../../assets/User/user-1.jpg')} />
+                  <UserImg source= {require('../../../assets/group.jpg')} />
 
                 </UserImgWrapper>
                 <TextSection>
                   <UserInfoText>
                     <UserName>{item.groupName}</UserName>
                     <PostTime>{item.transactionDateTime}</PostTime>
+                    {/* {item.readCounter != "0" ? ( <Badge style={{ position: 'absolute', top: -5, right: -5 }}>8</Badge> ) : null} */}
+                    {item.readCounter !== '0' && (
+                     <Badge value={item.readCounter} status="error" />
+                   )}
+
+                    {/* <View>
+      <Text style={styles.badgeText}>5</Text>
+    </View> */}
                   </UserInfoText>
                   {/* <MessageText>{item.messageText}</MessageText> */}
                 </TextSection>
               </UserInfo>
+
             </Card>
           )}
         />
@@ -276,4 +260,24 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     justifyContent: 'center'
   },
+ 
+  badge: {
+    backgroundColor: '	#e10000', // Set badge background color to red
+    position: 'absolute',
+    top: 3, // Adjust badge position as needed
+    right: 3,
+    // left: 250, // Adjust badge position as needed
+    borderRadius: 50, // Create a circular shape
+    width: 20,
+    height: 20
+  },
+  badgeText: {
+    color: 'white', // Set badge text color to white for visibility
+    fontSize: 20,
+    alignContent: 'center', // Adjust badge text size as needed
+    // padding: 
+    bottom: 3,
+    left: 3
+  },
+
 });

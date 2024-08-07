@@ -11,9 +11,18 @@
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      
+    }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios" : {
+        "appleId" : "Lokitechsolutions@gmail.com",
+        "ascAppId" : "6502608628",
+        "appleTeamId" : "H6NC6GR6WV"
+      }
+    }
   }
 }
+

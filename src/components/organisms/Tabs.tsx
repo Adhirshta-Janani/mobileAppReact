@@ -11,13 +11,15 @@ import HomeComponent from '../../screens/landingPage';
 
 
 const TabsComponents = ({navigation, route}) => {
-  const MusicRoute = () =>  <HomeComponent navigation={navigation} responseData={route}/>
+  const MusicRoute = () =>  <HomeComponent navigation={navigation} route={route}/>
 
 const AlbumsRoute = () =>  <DSPListView navigation={navigation} route={route}/>
 
 const RecentsRoute = () =>  <CheckInScreen navigation={navigation} route={route}/>
 
 const ChatRoute = () =>  <MessagesScreen navigation={navigation} route={route}/>
+
+const [dataLoaded, setDataLoaded] = React.useState(false);
 
 const NotificationsRoute = () => <CheckOutScreen navigation={navigation} route={route}/>
   const [index, setIndex] = React.useState(0);
@@ -38,7 +40,35 @@ const NotificationsRoute = () => <CheckOutScreen navigation={navigation} route={
 //     }
 //   }
 
-  const renderScene = BottomNavigation.SceneMap({
+let renderScene ;
+
+if(route.userLoginType == "Driver" && route.checkoutShow == "NoShow"){
+
+  renderScene = 
+  BottomNavigation.SceneMap({
+    music: MusicRoute,
+    albums: AlbumsRoute,
+    // recents: RecentsRoute,
+    notifications: NotificationsRoute,
+    chat: ChatRoute
+  });
+
+}
+
+else if(route.userLoginType == "Driver" && route.checkoutShow != "NoShow"){
+
+  renderScene = 
+  BottomNavigation.SceneMap({
+    music: MusicRoute,
+    chat: ChatRoute
+  });
+
+}
+
+else if(route.userLoginType != "Driver"){
+
+  renderScene = 
+  BottomNavigation.SceneMap({
     music: MusicRoute,
     albums: AlbumsRoute,
     recents: RecentsRoute,
@@ -46,17 +76,49 @@ const NotificationsRoute = () => <CheckOutScreen navigation={navigation} route={
     chat: ChatRoute
   });
 
+}
+
+
+
   return (
     // <Provider theme={{ ...theme, colors: { ...theme.colors, secondaryContainer: "<your-color>" } }}>
-    <BottomNavigation
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
+    // <BottomNavigation
+    //   navigationState={{ index, routes }}
+    //   onIndexChange={setIndex}
+    //   renderScene={renderScene}
     
-      theme={{colors: {secondaryContainer: '#146C94', background: '#FFFFFF'}}}
-    />
-    // </Provider>
-  );
+    //   theme={{colors: {secondaryContainer: '#146C94', background: '#FFFFFF'}}}
+    // />
+
+  //   <BottomNavigation
+  //   navigationState={{ index, routes }}
+  //   onIndexChange={setIndex}
+  //   renderScene={renderScene}
+  //   theme={{
+  //     colors: {
+  //       secondaryContainer:  '#146C94', // Change icon color based on dataLoaded state
+  //       background: 'white',
+  //     },
+  //   }}
+  // />
+  //   // </Provider>
+  // );
+
+  <Provider
+  theme={{
+    colors: { secondaryContainer: '#FFFFFF', background: '#FFFFFF' }, // Adjust theme as needed
+  }}
+>
+  <BottomNavigation
+    navigationState={{ index, routes }}
+    onIndexChange={setIndex}
+    renderScene={renderScene}
+    barStyle={{ backgroundColor: '#146C94' }} // Set tab bar background color
+    activeColor="#146C94" // Set active tab icon AND text color to white
+    inactiveColor="#fff" // Set inactive tab icon color (light gray)
+  />
+</Provider>
+  )
 };
 
 export default TabsComponents;
@@ -70,3 +132,22 @@ export default TabsComponents;
 //     justifyContent: 'center',
 //   },
 // });
+
+
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import CheckInScreen from '../../screens/checkin';
+// import ListingScreen from '../../screens/listingscreen';
+
+// const Tab = createBottomTabNavigator();
+
+// const TabsComponents = () => {
+//   return (
+//     <Tab.Navigator>
+//       <Tab.Screen name="Check-In" component={CheckInScreen}  />
+//       {/* <Tab.Screen name="CheckOut" component={CheckOut} /> */}
+//       <Tab.Screen name="Chat" component={ListingScreen} />
+//     </Tab.Navigator>
+//   );
+// };
+
+// export default TabsComponents;

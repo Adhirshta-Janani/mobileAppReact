@@ -141,10 +141,10 @@ const OTPAuthorisation = ({navigation,route}) => {
       
       <View style={styles.container}>
       <StatusBar backgroundColor="#FFFFFF" barStyle="light-content" />
-      <Image
+      {/* <Image
         source={require("./../assets/images/circle.png")}
         style={styles.circle}
-      />
+      /> */}
       <View style={styles.header}>
           <Image
              source={require("./../../assets/white_logo.png")}
@@ -252,6 +252,7 @@ const OTPAuthorisation = ({navigation,route}) => {
       <View style={styles.button}>
           <TouchableOpacity
             // style={styles.signIn}
+              accessibilityLabel = "verify button"
             onPress={() => {
               verifyHandle();
             }}
@@ -323,7 +324,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    marginTop:90,
+    marginTop:240,
     paddingHorizontal: 20,
     //paddingBottom: 20,   
     
